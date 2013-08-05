@@ -13,6 +13,6 @@ Demo
 
 To-Dos
 ------
-[ ] parseDOMtable is not really generic for different websites
-[ ] parseDOMelement is not flexible enough for different websites
-[ ] If $prefillValue 'DOMtype' is given, the correct dropdown entry in the Form should be pre-selected
+- [ ] parseDOMtable is not really generic for different websites
+- [ ] parseDOMelement is not flexible enough for different websites
+- [ ] If $prefillValue 'DOMtype' is given, the correct dropdown entry in the Form should be pre-selected
