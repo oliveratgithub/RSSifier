@@ -23,9 +23,11 @@ class RSSify
 	 * @version 1.0
 	 * @since 1.0
 	 *
+	 * @todo if $prefillValue 'DOMtype' is given, pre-select the correct dropdown entry
+	 *
 	 * @return string HTML formatted code
 	 */
-	public function GenericInputForm($previousValues = NULL)
+	public function GenericInputForm($prefillValues = NULL)
 	{
 			$html = sprintf('
 			<h3>
@@ -33,7 +35,7 @@ class RSSify
 			</h3>
 			<form method="POST" id="xml_metadata">
 				<fieldset>
-					 <legend>Metadaten</legend>
+					 <legend>Metadata</legend>
 					 <label>Full Source URL</label><input type="text" name="sourceURL" placeholder="http://..." class="input-xxlarge" value="%2$s" />
 					 <label>Base URL for single items</label><input type="text" name="baseURL" placeholder="http://..." class="input-xxlarge" value="%3$s" />
 					 <div><label>Elements are contained inside</label>
@@ -53,10 +55,10 @@ class RSSify
 				</fieldset>
 			</form>',
 			'RSS XML-Feed Config',
-			$previousValues['sourceURL'],
-			$previousValues['baseURL'],
-			$previousValues['elementOccurrence'],
-			$previousValues['elementSelector']);
+			$prefillValues['sourceURL'],
+			$prefillValues['baseURL'],
+			$prefillValues['elementOccurrence'],
+			$prefillValues['elementSelector']);
 			
 			return $html;
 	}
