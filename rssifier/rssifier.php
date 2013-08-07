@@ -7,8 +7,8 @@ require('configs.php');
  * RSS-ify a website without a valid XML RSS Feed
  *
  * @author Oliver Raduner <github@raduner.ch>
- * @date 04-08-2013
- * @version 0.9
+ * @date 07-08-2013
+ * @version 1.0
  * @copyright Public
  *
  * @todo parseDOMtable is not generic
@@ -29,7 +29,7 @@ class RSSify
 	 */
 	public function GenericInputForm($prefillValues = NULL)
 	{
-			$html = sprintf('
+		$html = sprintf('
 			<h3>
 				%1$s
 			</h3>
@@ -59,11 +59,11 @@ class RSSify
 			$prefillValues['baseURL'],
 			$prefillValues['elementOccurrence'],
 			$prefillValues['elementSelector']);
-			
-			return $html;
+
+		return $html;
 	}
-	
-	
+
+
 	/**
 	 * Form Validator
 	 * Validate Form inputs sent via $_POST
@@ -76,14 +76,14 @@ class RSSify
 		if (count($array) > 0)
 		{
 			foreach ($array as $key => $value) {
-		        if (is_null($value) && !in_array($key, $ignoreList)) CustomErrors::addError("Found empty <i>'$key'</i> in submitted Form!");
-		    }
+				if (is_null($value) && !in_array($key, $ignoreList)) CustomErrors::addError("Found empty <i>'$key'</i> in submitted Form!");
+			}
 		} else {
 			CustomErrors::addError("ALL fields are <i>empty</i> in submitted Form!");
 		}
 	}
-	
-	
+
+
 	/**
 	 * URL-Builder
 	 * Build URL for direct Feed access
@@ -108,23 +108,20 @@ class RSSify
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	 * RSS XML-Builder
 	 * RSS 2.0 compliant XML-Feed output
 	 * @link http://feed2.w3.org/docs/rss2.html
-	 * 
+	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @global array Custom Error Catcher
 	 * @return string
 	 */
 	public function RSS($url, $baseURL, $elementsOfType='', $elementOccurrence=0, $elementSelector='')
 	{
-		global $errors;
-		
 		if (!empty($url))
 		{
 			// PHP 5 Native DOM Parser
@@ -139,45 +136,45 @@ class RSSify
 					{
 						foreach ($feedMeta as $metakey => $metaItem)
 						{
-						    if($metakey == 'description')
-						        $feedDescription = $metaItem;
-						    if($metakey == 'keywords')
-						        $feedKeywords = $metaItem;
-					    }
+							if($metakey == 'description')
+								$feedDescription = $metaItem;
+							if($metakey == 'keywords')
+								$feedKeywords = $metaItem;
+						}
 					}
-					
+
 					$feed = sprintf('<?xml version="1.0" encoding="utf-8"?>
-					<rss version="2.0" 
-				    	xmlns:dc="http://purl.org/dc/elements/1.1/"
+					<rss version="2.0"
+						xmlns:dc="http://purl.org/dc/elements/1.1/"
 						xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 						xmlns:admin="http://webns.net/mvcb/"
 						xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 						xmlns:content="http://purl.org/rss/1.0/modules/content/">
-						
+
 						<channel>
-					    	<title>%1$s</title>
+							<title>%1$s</title>
 							<link>%2$s</link>
-						    <description>%3$s</description>
-						    <category>%4$s</category>
-						    <dc:creator>%1$s</dc:creator>
-						    <dc:date>%5$s</dc:date>
-						    <admin:generatorAgent rdf:resource="%6$s" />
-						    <admin:errorReportsTo rdf:resource="mailto:%7$s"/>
-						    <sy:updatePeriod>%8$s</sy:updatePeriod>
-						    <sy:updateFrequency>%9$s</sy:updateFrequency>
-						    <sy:updateBase>%10$s</sy:updateBase>
-						    ',
-						    $feedPublisher[0],
-						    $url,
-						    $feedDescription,
-						    $feedKeywords,
-						    date('D, d M Y H:i:s', time()),
-						    AppName,
-						    AppAuthor,
-						    'hourly',
-						    '1',
-						    '2010-01-01T12:00+00:00');
-					
+							<description>%3$s</description>
+							<category>%4$s</category>
+							<dc:creator>%1$s</dc:creator>
+							<dc:date>%5$s</dc:date>
+							<admin:generatorAgent rdf:resource="%6$s" />
+							<admin:errorReportsTo rdf:resource="mailto:%7$s"/>
+							<sy:updatePeriod>%8$s</sy:updatePeriod>
+							<sy:updateFrequency>%9$s</sy:updateFrequency>
+							<sy:updateBase>%10$s</sy:updateBase>
+							',
+						$feedPublisher[0],
+						$url,
+						$feedDescription,
+						$feedKeywords,
+						date('D, d M Y H:i:s', time()),
+						AppName,
+						AppAuthor,
+						'hourly',
+						'1',
+						'2010-01-01T12:00+00:00');
+
 					$feedItems = $this->getDOMelements($html, $elementsOfType, $elementOccurrence, $elementSelector);
 					if (count($feedItems) > 0)
 					{
@@ -189,10 +186,10 @@ class RSSify
 							$xmlitem_author = $feedPublisher[0];
 							$xmlitem_guid = $xmlitem_link;
 							$xmlitem_description = '<![CDATA[';
-								$xmlitem_description .= $xmlitem_title;
-								$xmlitem_description .= ']]>';
+							$xmlitem_description .= $xmlitem_title;
+							$xmlitem_description .= ']]>';
 							$xmlitem_content = '<a title="'.$xmlitem_title.'" href="'.$xmlitem_link.'">'.$xmlitem_title.'</a>';
-							
+
 							// XML Feed items schreiben
 							$feed .= sprintf('
 								<item>
@@ -211,25 +208,25 @@ class RSSify
 								$xmlitem_guid,
 								$xmlitem_description,
 								$xmlitem_content);
-								
+
 						} // end foreach
-				
+
 					} else { // if 0 results
 						CustomErrors::addError('No items found!', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__);
 					} // end if count()
-				
+
 					// Closing tags for the XML
 					$feed .= '
 						</channel>
 					</rss>';
-					
+
 					// Let's show the beauty!
 					echo $feed;
-				
+
 				} else {
 					CustomErrors::addError('No Page Title found', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__);
 				}
-				
+
 			} else {
 				CustomErrors::addError('Cannot parse DOM for given URL', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__);
 			}
@@ -237,8 +234,8 @@ class RSSify
 			CustomErrors::addError('No URL given...', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Parse and Echo Site Elements
 	 * @link: http://forums.phpfreaks.com/topic/213295-breaking-down-a-table/
@@ -246,33 +243,30 @@ class RSSify
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @global array Custom Error Catcher
 	 * @return array
 	 */
 	private function getDOMelements($DOM, $elementOfType, $occurence=0, $selector='')
 	{
-		global $error;
-		
 		$DOMitems = array();
-		
+
 		switch ($elementOfType):
-			case 'table':
-				$DOMitems = $this->parseDOMtable($DOM, $occurence);
-				break;
-				
-			default:
-				$DOMitems = $this->parseDOMelement($DOM, $elementOfType, $selector);
-				
+		case 'table':
+			$DOMitems = $this->parseDOMtable($DOM, $occurence);
+		break;
+
+	default:
+		$DOMitems = $this->parseDOMelement($DOM, $elementOfType, $selector);
+
 		endswitch;
-		
+
 		if (!is_null($DOMitems)) {
 			return $DOMitems;
 		} else {
 			CustomErrors::addError('No elements to parse...', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Parse DOM elements by HTML-Table-Tag
 	 *
@@ -287,10 +281,10 @@ class RSSify
 		$rows = array();
 		$col = array();
 		$DOMitems =  array();
-		
+
 		$tables = $DOM->getElementsByTagName('table');
 		$rows = $tables->item($occurence)->getElementsByTagName('tr');
-		
+
 		if (!is_null($rows))
 		{
 			$i = 0;
@@ -308,47 +302,43 @@ class RSSify
 			return $DOMitems;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Parse DOM elements by HTML-Tag
 	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
-	 * @global array Custom Error Catcher
 	 * @return array
 	 */
 	private function parseDOMelement($DOM, $tagName, $occurence=0, $scope='')
 	{
-		global $error;
-		
 		$elements = array();
 		$DOMitems =  array();
-		
+
 		$elements = $DOM->getElementsByTagName($tagName.$scope);
-			
+
 		if (!is_null($elements))
 		{
 			if ($tagName != 'meta') {
 				// Regular code for most HTML elements (except Meta Data, see "else")
 				foreach ($elements as $element)
 				{
-					//array_push($DOMitems, htmlentities($element->nodeValue, ENT_NOQUOTES | ENT_HTML5, 'UTF-8'));
 					array_push($DOMitems, htmlentities($element->nodeValue, ENT_NOQUOTES, 'UTF-8'));
 				}
 			} else {
 				// Special Code for parsing Site Meta Data
 				for ($i = 0; $i < $elements->length; $i++)
 				{
-				    $meta = $elements->item($i);
-				    $DOMitems[] = array(strtolower($meta->getAttribute('name')) => htmlentities($meta->getAttribute('content'), ENT_NOQUOTES, 'UTF-8'));
+					$meta = $elements->item($i);
+					$DOMitems[] = array(strtolower($meta->getAttribute('name')) => htmlentities($meta->getAttribute('content'), ENT_NOQUOTES, 'UTF-8'));
 				}
 			}
-		return $DOMitems;
+			return $DOMitems;
 		}
 	}
-	    
+
 }
 
 
@@ -359,13 +349,13 @@ class RSSify
  * @author Oliver Raduner <github@raduner.ch>
  * @date 04-08-2013
  * @version 1.0
- */ 
+ */
 class CustomErrors
-{	
+{
 	/**
 	 * Error-Adding
 	 * Add an Error to the Errors Array
-	 * 
+	 *
 	 * @version 1.0
 	 * @since 1.0
 	 *
@@ -376,7 +366,7 @@ class CustomErrors
 		global $errors;
 		array_push($errors, "<strong>$string</strong><br /><i>--- $file @ Line $line</i></p>");
 	}
-	
+
 	/**
 	 * Error-Counter
 	 * Counts all gathered Errors in the Errors Array
@@ -392,7 +382,7 @@ class CustomErrors
 		global $errors;
 		return (count($errors) > 0) ? TRUE : FALSE;
 	}
-	 
+
 	/**
 	 * Error-Output
 	 * Returns an Array containing all Errors in case there are any
@@ -406,7 +396,7 @@ class CustomErrors
 	public function outputErrors()
 	{
 		global $errors;
-		
+
 		if (!is_null($errors))
 		{
 			return $errors;
