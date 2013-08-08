@@ -13,6 +13,8 @@ require('configs.php');
  *
  * @todo parseDOMtable is not generic
  * @todo parseDOMelement is not flexible enough
+ *
+ * @package RSSifier
  */
 class RSSify
 {
@@ -349,6 +351,9 @@ class RSSify
  * @author Oliver Raduner <github@raduner.ch>
  * @date 04-08-2013
  * @version 1.0
+ *
+ * @package RSSifier
+ * @subpackage ErrorHandler
  */
 class CustomErrors
 {
