@@ -1,9 +1,16 @@
-About RSSifier
-------
+Introduction
+------------
 
-A PHP class to generate a valid RSS XML feed of any website using the PHP 5 built in DOM parser.
+RSSifier is a PHP class to generate a valid RSS 2.0 XML feed of any website, using the builtin DOM parser of PHP 5.
 
 This is an alternative to the [PHP Simple HTML DOM Parser](http://simplehtmldom.sourceforge.net/) which is slow and extremely memory consuming.
+
+
+References
+------------
+* [RSS 2.0 Specification](http://feed2.w3.org/docs/rss2.html)
+* [PHP 5 Document Object Model Documentation](http://www.php.net/manual/en/book.dom.php)
+
 
 Demo
 ------
@@ -13,6 +20,4 @@ Demo
 
 To-Dos
 ------
-- [ ] parseDOMtable is not really generic for different websites
-- [ ] parseDOMelement is not flexible enough for different websites
-- [ ] If $prefillValue 'DOMtype' is given, the correct dropdown entry in the Form should be pre-selected
+See the [Issues list](https://github.com/oliveratgithub/RSSifier/issues)
